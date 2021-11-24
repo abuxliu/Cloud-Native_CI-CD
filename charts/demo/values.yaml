@@ -1,0 +1,15 @@
+replicaCount: 1
+
+namespace: default
+
+image:
+  repository: abuxliu/demo
+  tag: v3.0.0
+  imagePullPolicy: IfNotPresent
+
+service:
+  name: demo
+  mountPath: /usr/local/application/conf/
+  containerPort: 30443
+  servicePort: 30443
+  nodePort: 30443

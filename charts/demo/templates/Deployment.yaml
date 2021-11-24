@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.service.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    k8s-app: {{ .Values.service.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      k8s-app: {{ .Values.service.name }}
+  template:
+    metadata:
+      name: {{ .Values.service.name }}
+      labels:
+        k8s-app: {{ .Values.service.name }}
+    spec:
+      containers:
+        - name: {{ .Values.service.name }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.containerPort }}
+          volumeMounts:
+            - name: {{ .Values.service.name }}
+              mountPath: {{ .Values.service.mountPath }}
+      volumes:
+        - name: {{ .Values.service.name }}
+          configMap:
+            name: {{ .Values.service.name }}
